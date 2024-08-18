@@ -1,61 +1,72 @@
-import { ProfileUI } from '@ui-pages';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+// src/pages/Profile.tsx
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../store';
+import { fetchCurrentUser, updateUserProfile } from '../../slices/userSlice';
 
-export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
+export const Profile: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user.data);
+  const userStatus = useSelector((state: RootState) => state.user.status);
 
-  const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
-    password: ''
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
-    }));
+    if (userStatus === 'idle') {
+      dispatch(fetchCurrentUser());
+    }
+  }, [userStatus, dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+    }
   }, [user]);
 
-  const isFormChanged =
-    formValue.name !== user?.name ||
-    formValue.email !== user?.email ||
-    !!formValue.password;
-
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
+  const handleSave = () => {
+    dispatch(updateUserProfile({ name, email }));
+    setEditing(false);
   };
 
-  const handleCancel = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setFormValue({
-      name: user.name,
-      email: user.email,
-      password: ''
-    });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value
-    }));
+  const handleCancel = () => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+    }
+    setEditing(false);
   };
 
   return (
-    <ProfileUI
-      formValue={formValue}
-      isFormChanged={isFormChanged}
-      handleCancel={handleCancel}
-      handleSubmit={handleSubmit}
-      handleInputChange={handleInputChange}
-    />
+    <div>
+      <h1>Profile</h1>
+      {user && (
+        <div>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            disabled={!editing}
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={!editing}
+          />
+          {editing ? (
+            <div>
+              <button onClick={handleSave}>Save</button>
+              <button onClick={handleCancel}>Cancel</button>
+            </div>
+          ) : (
+            <button onClick={() => setEditing(true)}>Edit</button>
+          )}
+        </div>
+      )}
+    </div>
   );
-
-  return null;
 };
+
