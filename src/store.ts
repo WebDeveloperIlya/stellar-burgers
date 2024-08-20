@@ -4,7 +4,7 @@ import userReducer from './slices/userSlice';
 import ordersReducer from './slices/ordersSlice';
 import ingredientSlice from './slices/ingedientSlice';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     user: userReducer,
     orders: ordersReducer,
@@ -15,4 +15,4 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export default store;
+
