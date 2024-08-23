@@ -44,13 +44,13 @@ export const Profile: React.FC = () => {
       {user && (
         <div>
           <input
-            type="text"
+            type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={!editing}
           />
           <input
-            type="email"
+            type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={!editing}

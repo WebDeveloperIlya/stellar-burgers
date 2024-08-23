@@ -8,13 +8,18 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
-  const isAuthenticated = useSelector((state: RootState) => state.user.data !== null);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.data !== null
+  );
   const location = useLocation();
 
   console.log('isAuthenticated:', isAuthenticated);
 
-  return isAuthenticated ? element : <Navigate to="/login" state={{ from: location }} replace />;
+  return isAuthenticated ? (
+    element
+  ) : (
+    <Navigate to='/login' state={{ from: location }} replace />
+  );
 };
-
 
 export default PrivateRoute;

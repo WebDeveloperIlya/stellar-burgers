@@ -1,7 +1,12 @@
 // src/slices/userSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TUser, TRegisterData, TLoginData } from '../utils/types';
-import { getUserApi, updateUserApi, loginUserApi, registerUserApi } from '../utils/burger-api';
+import {
+  getUserApi,
+  updateUserApi,
+  loginUserApi,
+  registerUserApi
+} from '../utils/burger-api';
 
 type UserState = {
   data: TUser | null;
@@ -12,18 +17,24 @@ type UserState = {
 const initialState: UserState = {
   data: null,
   status: 'idle',
-  error: null,
+  error: null
 };
 
-export const fetchCurrentUser = createAsyncThunk('user/fetchCurrentUser', async () => {
-  const response = await getUserApi();
-  return response.user;
-});
+export const fetchCurrentUser = createAsyncThunk(
+  'user/fetchCurrentUser',
+  async () => {
+    const response = await getUserApi();
+    return response.user;
+  }
+);
 
-export const updateUserProfile = createAsyncThunk('user/updateUserProfile', async (user: Partial<TRegisterData>) => {
-  const response = await updateUserApi(user);
-  return response.user;
-});
+export const updateUserProfile = createAsyncThunk(
+  'user/updateUserProfile',
+  async (user: Partial<TRegisterData>) => {
+    const response = await updateUserApi(user);
+    return response.user;
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',
@@ -53,7 +64,7 @@ const userSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message || 'Failed to update user profile';
       });
-  },
+  }
 });
 
 export default userSlice.reducer;

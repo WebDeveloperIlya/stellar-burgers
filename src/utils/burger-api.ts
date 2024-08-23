@@ -233,24 +233,3 @@ export const logoutApi = () =>
       token: localStorage.getItem('refreshToken')
     })
   }).then((res) => checkResponse<TServerResponse<{}>>(res));
-
-
-interface Ingredient {
-  _id: string;
-  name: string;
-  type: 'bun' | 'main' | 'sauce';
-}
-
-export const fetchIngredients = async (): Promise<Ingredient[]> => {
-  try {
-    const response = await fetch(`${URL}/ingredients`) 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Failed to fetch ingredients:', error);
-    throw error; 
-  }
-};

@@ -1,10 +1,13 @@
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 
 export const IngredientDetails: FC = () => {
-  /** TODO: взять переменную из стора */
-  const ingredientData = null;
+  const ingredientData = useSelector(
+    (state: RootState) => state.ingredients.currentIngredient
+  );
 
   if (!ingredientData) {
     return <Preloader />;

@@ -63,7 +63,11 @@ export const fetchOrderByNumber = async (number: number) => {
   }
 };
 
-export const registerUser = async (userData: { email: string; name: string; password: string }) => {
+export const registerUser = async (userData: {
+  email: string;
+  name: string;
+  password: string;
+}) => {
   try {
     const user = await registerUserApi(userData);
     return user;
@@ -73,7 +77,10 @@ export const registerUser = async (userData: { email: string; name: string; pass
   }
 };
 
-export const loginUser = async (loginData: { email: string; password: string }) => {
+export const loginUser = async (loginData: {
+  email: string;
+  password: string;
+}) => {
   try {
     const user = await loginUserApi(loginData);
     return user;
@@ -111,7 +118,9 @@ export const fetchUser = async () => {
   }
 };
 
-export const updateUser = async (userData: Partial<{ email: string; name: string; password: string }>) => {
+export const updateUser = async (
+  userData: Partial<{ email: string; name: string; password: string }>
+) => {
   try {
     const updatedUser = await updateUserApi(userData);
     return updatedUser;

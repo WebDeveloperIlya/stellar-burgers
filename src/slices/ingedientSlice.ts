@@ -1,28 +1,41 @@
 // src/slices/ingredientsSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { fetchIngredients } from '../utils/burger-api'; // Импортируем функцию из burger-api
+import { getIngredientsApi } from '../utils/burger-api'; // Импортируем функцию из burger-api
+import { TIngredient } from '@utils-types';
+
+interface Ingredient {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_large: string;
+  image_mobile: string;
+}
 
 interface IngredientsState {
-  buns: any[]; 
-  mains: any[]; 
-  sauces: any[];
+  ingredients: TIngredient[];
+  currentIngredient: Ingredient | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: IngredientsState = {
-  buns: [],
-  mains: [],
-  sauces: [],
+  ingredients: [],
+  currentIngredient: null,
   loading: false,
-  error: null,
+  error: null
 };
 
-export const fetchIngredientsThunk = createAsyncThunk(
+export const fetchIngredientsThunk = createAsyncThunk<TIngredient[]>(
   'ingredients/fetchIngredients',
   async (_, { rejectWithValue }) => {
     try {
-      const ingredients = await fetchIngredients();
+      const ingredients = await getIngredientsApi();
       return ingredients;
     } catch (error) {
       return rejectWithValue('Failed to fetch ingredients');
@@ -33,40 +46,28 @@ export const fetchIngredientsThunk = createAsyncThunk(
 const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  reducers: {
-    setBuns: (state, action: PayloadAction<any[]>) => { // Adjust type accordingly
-      state.buns = action.payload;
-    },
-    setMains: (state, action: PayloadAction<any[]>) => { // Adjust type accordingly
-      state.mains = action.payload;
-    },
-    setSauces: (state, action: PayloadAction<any[]>) => { // Adjust type accordingly
-      state.sauces = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredientsThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchIngredientsThunk.fulfilled, (state, action: PayloadAction<any[]>) => {
-        state.loading = false;
-        // Разделение ингредиентов на категории
-        const buns = action.payload.filter(ingredient => ingredient.type === 'bun');
-        const mains = action.payload.filter(ingredient => ingredient.type === 'main');
-        const sauces = action.payload.filter(ingredient => ingredient.type === 'sauce');
-        
-        state.buns = buns;
-        state.mains = mains;
-        state.sauces = sauces;
-      })
+      .addCase(
+        fetchIngredientsThunk.fulfilled,
+        (state, action: PayloadAction<TIngredient[]>) => {
+          state.loading = false;
+          state.ingredients = action.payload;
+        }
+      )
       .addCase(fetchIngredientsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
+  },
+  selectors: {
+    getIngredients: (state) => state.ingredients
   }
 });
-
-export const { setBuns, setMains, setSauces } = ingredientsSlice.actions;
+export const ingredientSelector = ingredientsSlice.selectors;
 export default ingredientsSlice.reducer;
