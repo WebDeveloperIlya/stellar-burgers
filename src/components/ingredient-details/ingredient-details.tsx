@@ -3,7 +3,7 @@ import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
-import { getIngredientsWithSelector } from '../../services/slices/ingedientSlice';
+import { getIngredientsWithSelector } from '../../services/slices/IngedientSlice';
 import styles from '../app/app.module.css';
 
 export const IngredientDetails: FC = () => {
@@ -11,7 +11,7 @@ export const IngredientDetails: FC = () => {
 
   const { id } = useParams();
 
-  const ingredientData = ingredients.find((item) => item._id === id); //в переменной вернули ингредиент, id которого совпадает с id params url
+  const ingredientData = ingredients.find((item) => item._id === id);
 
   if (!ingredientData) {
     return <Preloader />;

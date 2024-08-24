@@ -16,11 +16,11 @@ import {
 import { TRegisterData } from '../../utils/burger-api';
 
 type TStateUser = {
-  isAuthChecked: boolean; //флаг для статуса проверки токена пользователя
+  isAuthChecked: boolean;
   isAuthenticated: boolean;
-  user: TUser | null; //null, если пользователь не авторизован
-  loginUserError: null | string; // Ошибка логина, если есть
-  loginUserRequest: boolean; // Флаг для состояния запроса логина
+  user: TUser | null;
+  loginUserError: null | string;
+  loginUserRequest: boolean;
 };
 
 const initialState: TStateUser = {

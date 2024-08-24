@@ -13,6 +13,7 @@ export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
     };
 
     document.addEventListener('keydown', handleEsc);
+
     return () => {
       document.removeEventListener('keydown', handleEsc);
     };

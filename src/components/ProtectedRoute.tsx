@@ -1,7 +1,7 @@
 import { useSelector } from '../services/store';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Preloader } from '../components/ui/preloader/preloader';
-import { selectUser, selectIsAuthChecked } from '../services/slices/userSlice';
+import { Preloader } from './ui/preloader/preloader';
+import { selectUser, selectIsAuthChecked } from '../services/slices/UserSlice';
 
 type ProtectedRouteProps = {
   onlyUnAuth?: boolean;
@@ -21,7 +21,7 @@ export const ProtectedRoute = ({
   }
 
   if (!onlyUnAuth && !user) {
-    return <Navigate replace to='/login' state={{ from: location }} />; // в поле from объекта location.state записываем информацию о URL
+    return <Navigate replace to='/login' state={{ from: location }} />;
   }
 
   if (onlyUnAuth && user) {

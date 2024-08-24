@@ -5,11 +5,10 @@ import {
   selectUser,
   updateUser,
   selectloginUserRequest
-} from '../../services/slices/userSlice';
+} from '../../services/slices/UserSlice';
 import { TUser } from '../../utils/types';
 import { Preloader } from '@ui';
 
-//компонент страницы ЛК
 export const Profile: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser) as TUser;

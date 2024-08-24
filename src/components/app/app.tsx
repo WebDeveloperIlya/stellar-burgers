@@ -8,7 +8,7 @@ import {
   Profile,
   ProfileOrders,
   NotFound404
-} from '@pages'; // Импортируем страницы для маршрутизации
+} from '@pages';
 
 import '../../index.css';
 import styles from './app.module.css';
@@ -16,9 +16,9 @@ import { AppHeader, Modal, IngredientDetails, OrderInfo } from '@components';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
-import { getIngredients } from '../../services/slices/ingedientSlice';
-import { ProtectedRoute } from '../PrivateRoute';
-import { checkUserAuth } from '../../services/slices/userSlice';
+import { getIngredients } from '../../services/slices/IngedientSlice';
+import { ProtectedRoute } from '../ProtectedRoute';
+import { checkUserAuth } from '../../services/slices/UserSlice';
 
 const App = () => {
   const navigate = useNavigate();
@@ -96,6 +96,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        {/*Роуты для рендера контента по условию отсутствия фонового состояния, то есть когда пользователь открывает прямую ссылку*/}
         <Route path='*' element={<NotFound404 />} />
         <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
@@ -108,6 +109,7 @@ const App = () => {
           }
         />
       </Routes>
+      {/*Роуты для рендера модальных окон по условию наличия фонового состояния*/}
       {background && (
         <Routes>
           <Route

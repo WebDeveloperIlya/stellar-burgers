@@ -134,7 +134,6 @@ export const logout = async () => {
   try {
     await logoutApi();
     localStorage.removeItem('refreshToken');
-    // Optionally clear any other user-related data
   } catch (error) {
     console.error('Error logging out:', error);
     throw error;

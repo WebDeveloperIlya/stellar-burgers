@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 import { orderBurgerApi, getIngredientsApi } from '../../utils/burger-api';
+import { getLoadingStatus } from './IngedientSlice';
 
 type TStateBurgerConstructor = {
   constructorItems: {

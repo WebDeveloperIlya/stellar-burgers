@@ -1,24 +1,35 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/api';
+import { useDispatch } from '../../services/store';
+import { TLoginData } from '../../utils/burger-api';
+import {
+  logInUser,
+  selectIsAuthenticated
+} from '../../services/slices/UserSlice';
+import { useSelector } from '../../services/store';
+import { Navigate } from 'react-router-dom';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorText, setErrorText] = useState('');
 
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    try {
-      await loginUser({ email, password });
-      navigate('/');
-    } catch (error) {
-      setErrorText('Invalid email or password. Please try again.');
-    }
+
+    const userLoginData: TLoginData = {
+      email: email,
+      password: password
+    };
+    dispatch(logInUser(userLoginData));
   };
+
+  if (isAuthenticated) {
+    return <Navigate to={'/'} />;
+  }
 
   return (
     <LoginUI
