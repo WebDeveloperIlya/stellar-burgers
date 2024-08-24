@@ -1,17 +1,25 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
+import { useSelector } from '../../services/store';
+import { useParams } from 'react-router-dom';
+import { getIngredientsWithSelector } from '../../services/slices/ingedientSlice';
+import styles from '../app/app.module.css';
 
 export const IngredientDetails: FC = () => {
-  const ingredientData = useSelector(
-    (state: RootState) => state.ingredients.currentIngredient
-  );
+  const ingredients = useSelector(getIngredientsWithSelector);
+
+  const { id } = useParams();
+
+  const ingredientData = ingredients.find((item) => item._id === id); //в переменной вернули ингредиент, id которого совпадает с id params url
 
   if (!ingredientData) {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  return (
+    <div className={styles.detailPageWrap}>
+      <IngredientDetailsUI ingredientData={ingredientData} />
+    </div>
+  );
 };

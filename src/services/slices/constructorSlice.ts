@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient } from '@utils-types';
-import { TOrder } from '../utils/types';
+import { TOrder } from '../../utils/types';
 
 interface ConstructorState {
   bun: { id: string; price: number } | null;

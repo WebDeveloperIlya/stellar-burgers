@@ -1,28 +1,48 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useSelector } from 'react-redux';
-import { BurgerIngredientsUI } from '../ui/burger-ingredients';
+
 import { TTabMode } from '@utils-types';
-import { ingredientSelector } from '../../slices/ingedientSlice';
+import { BurgerIngredientsUI } from '../ui/burger-ingredients';
+import { useSelector } from '../../services/store';
+import { getIngredientsWithSelector } from '../../services/slices/ingedientSlice';
+import { Preloader } from '../../components/ui';
+import { getLoadingStatus } from '../../services/slices/ingedientSlice';
 
+//компонент-обертка для описания логики отображения списка ингридиентов, логика передается в следующий компонент UI для последующего рендера
 export const BurgerIngredients: FC = () => {
-  const ingredients = useSelector(ingredientSelector.getIngredients);
+  const ingredients = useSelector(getIngredientsWithSelector);
 
-  const buns = ingredients.filter((ingredient) => ingredient.type === 'bun');
-  const mains = ingredients.filter((ingredient) => ingredient.type === 'main');
-  const sauces = ingredients.filter(
-    (ingredient) => ingredient.type === 'sauce'
-  );
+  const isLoading = useSelector(getLoadingStatus);
 
+  if (isLoading) {
+    return <Preloader />;
+  }
+
+  // Фильтруем ингредиенты по их типу (булки, основные ингредиенты, соусы)
+  const buns = ingredients.filter((item) => item.type === 'bun');
+  const mains = ingredients.filter((item) => item.type === 'main');
+  const sauces = ingredients.filter((item) => item.type === 'sauce');
+  // Текущее состояние выбранной вкладки
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
+
+  // Ссылки на заголовки для прокрутки по вкладкам
   const titleBunRef = useRef<HTMLHeadingElement>(null);
   const titleMainRef = useRef<HTMLHeadingElement>(null);
   const titleSaucesRef = useRef<HTMLHeadingElement>(null);
 
-  const [bunsRef, inViewBuns] = useInView({ threshold: 0 });
-  const [mainsRef, inViewFilling] = useInView({ threshold: 0 });
-  const [saucesRef, inViewSauces] = useInView({ threshold: 0 });
+  const [bunsRef, inViewBuns] = useInView({
+    threshold: 0
+  });
 
+  const [mainsRef, inViewFilling] = useInView({
+    threshold: 0
+  });
+
+  const [saucesRef, inViewSauces] = useInView({
+    threshold: 0
+  });
+
+  // Обновляем текущую вкладку в зависимости от того, какая секция видна на экране
   useEffect(() => {
     if (inViewBuns) {
       setCurrentTab('bun');
@@ -33,6 +53,7 @@ export const BurgerIngredients: FC = () => {
     }
   }, [inViewBuns, inViewFilling, inViewSauces]);
 
+  // Обработчик кликов по вкладкам: прокручиваем страницу к нужной секции
   const onTabClick = (tab: string) => {
     setCurrentTab(tab as TTabMode);
     if (tab === 'bun')

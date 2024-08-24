@@ -1,7 +1,6 @@
 import React from 'react';
 import { BurgerIngredientUI } from '@ui';
 import type { Meta, StoryObj } from '@storybook/react';
-import { createOrder } from '../services/api';
 
 const meta = {
   title: 'Example/BurgerIngredient',
@@ -49,17 +48,6 @@ export const DefaultIngredient: Story = {
         state: null
       }
     },
-    handleAdd: () => {
-      console.log('Ингредиент добавлен в заказ');
-      const ingredientIds = ['111'];
-
-      createOrder(ingredientIds)
-        .then((response) => {
-          console.log('Заказ создан:', response);
-        })
-        .catch((error) => {
-          console.error('Ошибка при создании заказа:', error);
-        });
-    }
+    handleAdd: () => {}
   }
 };

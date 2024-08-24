@@ -3,23 +3,18 @@ import { useLocation } from 'react-router-dom';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
-import { createOrder } from '../../services/api';
+import { addIngredient } from '../../services/slices/BurgerConstructorSlice';
+import { useDispatch } from '../../services/store';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
-    const location = useLocation();
+    const location = useLocation(); // Получаем текущую локацию, чтобы использовать её для работы с модальным окном
+    const dispatch = useDispatch();
 
+    // Функция-обработчик для добавления ингредиента в конструктор
     const handleAdd = () => {
-      console.log('Ингредиент добавлен в заказ');
-      const ingredientIds = ['111'];
-
-      createOrder(ingredientIds)
-        .then((response) => {
-          console.log('Заказ создан:', response);
-        })
-        .catch((error) => {
-          console.error('Ошибка при создании заказа:', error);
-        });
+      // Добавляем ингредиент в конструктор бургера
+      dispatch(addIngredient(ingredient));
     };
 
     return (

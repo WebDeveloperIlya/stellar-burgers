@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { TOrder } from '../utils/types';
+import { TOrder } from '../../utils/types';
 import {
   getOrdersApi,
   orderBurgerApi,
   getOrderByNumberApi
-} from '../utils/burger-api';
+} from '../../utils/burger-api';
 
 interface OrderState {
   orders: TOrder[];

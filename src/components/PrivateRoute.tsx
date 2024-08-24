@@ -1,25 +1,34 @@
-import React from 'react';
+import { useSelector } from '../services/store';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { Preloader } from '../components/ui/preloader/preloader';
+import { selectUser, selectIsAuthChecked } from '../services/slices/userSlice';
 
-interface PrivateRouteProps {
-  element: React.ReactElement;
-}
-
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.data !== null
-  );
-  const location = useLocation();
-
-  console.log('isAuthenticated:', isAuthenticated);
-
-  return isAuthenticated ? (
-    element
-  ) : (
-    <Navigate to='/login' state={{ from: location }} replace />
-  );
+type ProtectedRouteProps = {
+  onlyUnAuth?: boolean;
+  children: React.ReactElement;
 };
 
-export default PrivateRoute;
+export const ProtectedRoute = ({
+  onlyUnAuth,
+  children
+}: ProtectedRouteProps) => {
+  const isAuthChecked = useSelector(selectIsAuthChecked);
+  const user = useSelector(selectUser);
+  const location = useLocation();
+
+  if (!isAuthChecked) {
+    return <Preloader />;
+  }
+
+  if (!onlyUnAuth && !user) {
+    return <Navigate replace to='/login' state={{ from: location }} />; // в поле from объекта location.state записываем информацию о URL
+  }
+
+  if (onlyUnAuth && user) {
+    const from = location.state?.from || { pathname: '/' };
+
+    return <Navigate replace to={from} />;
+  }
+
+  return children;
+};
