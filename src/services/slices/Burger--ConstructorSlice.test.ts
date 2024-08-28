@@ -1,18 +1,24 @@
 import { createOrder } from './Burger--ConstructorSlice';
 import { orderBurgerApi } from '../../utils/burger-api';
-
 import { Middleware } from 'redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { AnyAction } from 'redux';
+import { ThunkDispatch, ThunkAction } from 'redux-thunk';
+import { Action } from 'redux';
+import { RootState } from '../store'; // Замените на правильный импорт типа RootState
 
-const middlewares: Middleware<{}, any, AnyAction>[] = [thunk];
-const mockStore = configureMockStore(middlewares);
+// Определяем типы для ThunkAction и ThunkDispatch
+type ThunkActionType = ThunkAction<void, RootState, unknown, Action<string>>;
+type ThunkDispatchType = ThunkDispatch<RootState, unknown, Action<string>>;
+
+const middlewares: Middleware<{}, RootState, ThunkDispatchType>[] = [thunk];
+const mockStore = configureMockStore<RootState, ThunkDispatchType>(middlewares);
 
 describe('createOrder async action', () => {
   it('should dispatch the correct actions on success', async () => {
-    const store = mockStore({});
+    const store = mockStore();
 
+    // Мокаем API
     (orderBurgerApi as jest.Mock).mockResolvedValue({
       order: {
         number: 123,
@@ -21,8 +27,9 @@ describe('createOrder async action', () => {
       name: 'Test Burger'
     });
 
+    // Диспатчим асинхронное действие
     await store.dispatch(
-      createOrder(['ingredient1', 'ingredient2']) as unknown as AnyAction
+      createOrder(['ingredient1', 'ingredient2']) as ThunkActionType
     );
 
     const actions = store.getActions();

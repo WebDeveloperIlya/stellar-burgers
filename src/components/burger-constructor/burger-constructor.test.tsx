@@ -23,7 +23,8 @@ describe('BurgerConstructor', () => {
     );
 
     // Проверка наличия компонента
-    expect(screen.getByText(/Оформить заказ/i)).toBeInTheDocument();
+    const element = screen.queryByText(/Оформить заказ/i);
+    expect(element).not.toBeNull();
   });
 
   it('should redirect to login if not authenticated', () => {

@@ -27,10 +27,12 @@ describe('Modal', () => {
     );
 
     // Проверка наличия заголовка модального окна
-    expect(screen.getByText(/Test Modal/i)).toBeInTheDocument();
+    const element = screen.queryByText(/Test Modal/i);
+    expect(element).not.toBeNull();
 
     // Проверка наличия содержимого модального окна
-    expect(screen.getByText(/Test Content/i)).toBeInTheDocument();
+    const element1 = screen.queryByText(/Test Content/i);
+    expect(element1).not.toBeNull();
 
     // Проверка нажатия кнопки закрытия
     fireEvent.click(screen.getByText(/Close/i));
