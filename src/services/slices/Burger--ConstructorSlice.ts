@@ -18,7 +18,7 @@ export const burgerConstructorSlice = createSlice({
       action: PayloadAction<TConstructorIngredient>
     ) => {
       const ingredient = action.payload;
-      if (ingredient.type === 'bun') {
+      if (ingredient.type === 'top') {
         state.bun = ingredient;
       } else {
         state.ingredients.push(ingredient);

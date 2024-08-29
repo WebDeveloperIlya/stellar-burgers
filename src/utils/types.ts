@@ -18,7 +18,7 @@ export type TConstructorIngredient = {
   id: string;
   _id: string;
   name: string;
-  type: 'bun' | 'vegetable' | 'sauce';
+  type: 'top' | 'vegetable' | 'sauce';
   proteins: number;
   fat: number;
   carbohydrates: number;

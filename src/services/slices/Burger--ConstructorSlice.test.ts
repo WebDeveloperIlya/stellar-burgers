@@ -42,7 +42,7 @@ describe('constructorSlice', () => {
     id: '789',
     _id: '789',
     name: 'Brioche Bun',
-    type: 'bun',
+    type: 'top',
     proteins: 2,
     fat: 0.2,
     carbohydrates: 3.5,
