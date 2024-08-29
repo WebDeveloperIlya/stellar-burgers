@@ -5,7 +5,7 @@ import styles from './profile.module.css';
 import commonStyles from '../common.module.css';
 
 import { ProfileUIProps } from './type';
-import { ProfileMenu } from '@components';
+import { ProfileMenu } from '../../../';
 
 export const ProfileUI: FC<ProfileUIProps> = ({
   formValue,

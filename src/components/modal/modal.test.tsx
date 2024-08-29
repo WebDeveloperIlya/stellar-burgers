@@ -5,10 +5,11 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
 import { ModalUI } from '../ui';
+import { rootReducer } from '../../services/store';
 
 const store = configureStore({
   reducer: {
-    // добавьте редьюсеры по необходимости
+    reducer: rootReducer
   }
 });
 

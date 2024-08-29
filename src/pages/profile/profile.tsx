@@ -1,4 +1,4 @@
-import { ProfileUI } from '@ui-pages';
+import { ProfileUI } from '../../components/ui/pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
 import {
@@ -7,7 +7,7 @@ import {
   selectloginUserRequest
 } from '../../services/slices/UserSlice';
 import { TUser } from '../../utils/types';
-import { Preloader } from '@ui';
+import { Preloader } from '../../components/ui';
 
 export const Profile: FC = () => {
   const dispatch = useDispatch();
@@ -35,13 +35,7 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(
-      updateUser({
-        name: formValue.name,
-        email: formValue.email,
-        password: formValue.password
-      })
-    );
+    dispatch(updateUser());
   };
 
   const handleCancel = (e: SyntheticEvent) => {

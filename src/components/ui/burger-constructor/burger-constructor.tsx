@@ -6,9 +6,9 @@ import {
 } from '@zlden/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import { BurgerConstructorUIProps } from './type';
-import { TConstructorIngredient } from '@utils-types';
+import { TConstructorIngredient } from '../../../utils/types';
 import { BurgerConstructorElement, Modal } from '../../';
-import { Preloader, OrderDetailsUI } from '@ui';
+import { Preloader, OrderDetailsUI } from '../../ui';
 
 export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   constructorItems = { bun: null, ingredients: [] }, // Убедитесь, что constructorItems всегда имеет значения по умолчанию

@@ -12,8 +12,28 @@ export type TIngredient = {
   image_mobile: string;
 };
 
-export type TConstructorIngredient = TIngredient & {
+// types.ts
+
+export type TConstructorIngredient = {
   id: string;
+  _id: string;
+  name: string;
+  type: 'bun' | 'vegetable' | 'sauce';
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_large: string;
+  image_mobile: string;
+};
+
+export type TConstructorState = {
+  bun: TConstructorIngredient | null;
+  ingredients: TConstructorIngredient[];
+  orderRequest: boolean;
+  orderModalData: TOrder | null;
 };
 
 export type TOrder = {

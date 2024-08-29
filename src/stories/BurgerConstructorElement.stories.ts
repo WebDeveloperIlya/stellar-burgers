@@ -1,4 +1,4 @@
-import { BurgerConstructorElementUI } from '@ui';
+import { BurgerConstructorElementUI } from '../components/ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { totalmem } from 'os';
 

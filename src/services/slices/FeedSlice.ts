@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getFeedsApi } from '@api';
-import { TOrder } from '@utils-types';
+import { getFeedsApi } from '../../utils/burger-api';
+import { TOrder } from '../../utils/types';
 import { getOrderByNumberApi } from '../../utils/burger-api';
 import { act } from 'react-dom/test-utils';
 

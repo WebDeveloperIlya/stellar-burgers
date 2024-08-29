@@ -1,6 +1,6 @@
-import { Preloader } from '@ui';
-import { FeedUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
+import { Preloader } from '../../components/ui';
+import { FeedUI } from '../../components/ui/pages';
+import { TOrder } from '../../utils/types';
 import { FC, useEffect } from 'react';
 import { getFeedData } from '../../services/slices/FeedSlice';
 import { getFeedOrders, getLoading } from '../../services/slices/FeedSlice';

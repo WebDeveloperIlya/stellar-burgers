@@ -1,4 +1,3 @@
-// BurgerConstructor.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -8,7 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 const store = configureStore({
   reducer: {
-    burgerConstructor: burgerConstructorReducer.reducer
+    burgerConstructor: burgerConstructorReducer
   }
 });
 
@@ -39,8 +38,5 @@ describe('BurgerConstructor', () => {
     // Проверка, что при нажатии на кнопку "Оформить заказ" происходит редирект
     const orderButton = screen.getByText(/Оформить заказ/i);
     fireEvent.click(orderButton);
-
-    // Поскольку мы не авторизованы, ожидаем редирект
-    // Можно использовать mock для проверки редиректа
   });
 });

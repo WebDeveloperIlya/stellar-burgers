@@ -1,4 +1,4 @@
-import { ProfileMenuUI } from '@ui';
+import { ProfileMenuUI } from '../components/ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
