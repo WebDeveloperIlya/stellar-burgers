@@ -1,8 +1,8 @@
 import { FC, memo } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { BurgerIngredientUI } from '../ui';
 import { TBurgerIngredientProps } from './type';
+import { TConstructorIngredient } from '../../utils/types';
 import { addIngredient } from '../../services/slices/Burger--ConstructorSlice';
 import { useDispatch } from '../../services/store';
 
@@ -12,7 +12,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const dispatch = useDispatch();
 
     const handleAdd = () => {
-      dispatch(addIngredient(ingredient));
+      dispatch(addIngredient(ingredient as TConstructorIngredient));
     };
 
     return (

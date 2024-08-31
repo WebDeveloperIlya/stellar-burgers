@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '../../utils/types';
+import { TConstructorIngredient, TOrder } from '../../utils/types';
 import { BurgerConstructorUI } from '../ui';
 import { useSelector, useDispatch } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
@@ -35,12 +35,22 @@ export const BurgerConstructor: FC = () => {
     }
     if (!constructorItems.bun || orderRequest) return;
 
-    const order = [
-      constructorItems.bun._id,
-      ...constructorItems.ingredients.map((ingredient) => ingredient._id),
-      constructorItems.bun._id
-    ].filter(Boolean);
+    // Создаем объект TOrder
+    const order: TOrder = {
+      _id: 'generated-id', // Используйте реальный идентификатор
+      status: 'pending', // Используйте реальный статус
+      name: 'Burger Order', // Название заказа
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      number: Math.floor(Math.random() * 10000), // Генерация случайного номера
+      ingredients: [
+        constructorItems.bun._id,
+        ...constructorItems.ingredients.map((ingredient) => ingredient._id),
+        constructorItems.bun._id
+      ]
+    };
 
+    // Передаем объект TOrder
     dispatch(createOrder(order));
   };
 

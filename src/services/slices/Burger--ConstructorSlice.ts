@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TConstructorState, TConstructorIngredient } from '../../utils/types';
-import { RootState } from 'services/store';
+import {
+  TConstructorState,
+  TConstructorIngredient,
+  TOrder
+} from '../../utils/types';
+import { RootState } from '../store';
 
 const initialState: TConstructorState = {
   bun: null,
@@ -40,6 +44,44 @@ export const burgerConstructorSlice = createSlice({
     resetConstructor: (state) => {
       state.bun = null;
       state.ingredients = [];
+    },
+    addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
+      const ingredient = action.payload;
+      if (!state.ingredients.some((ing) => ing._id === ingredient._id)) {
+        state.ingredients.push(ingredient);
+      }
+    },
+    removeIngredient: (
+      state,
+      action: PayloadAction<TConstructorIngredient>
+    ) => {
+      state.ingredients = state.ingredients.filter(
+        (ingredient) => ingredient._id !== action.payload._id
+      );
+    },
+    moveUpIngredient: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      if (index > 0 && index < state.ingredients.length) {
+        const tmp = state.ingredients[index];
+        state.ingredients[index] = state.ingredients[index - 1];
+        state.ingredients[index - 1] = tmp;
+      }
+    },
+    moveDownIngredient: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      if (index >= 0 && index < state.ingredients.length - 1) {
+        const tmp = state.ingredients[index];
+        state.ingredients[index] = state.ingredients[index + 1];
+        state.ingredients[index + 1] = tmp;
+      }
+    },
+    createOrder: (state, action: PayloadAction<TOrder>) => {
+      state.orderRequest = true;
+      state.orderModalData = action.payload;
+    },
+    clearOrder: (state) => {
+      state.orderRequest = false;
+      state.orderModalData = null;
     }
   }
 });
@@ -48,7 +90,13 @@ export const {
   addToConstructor,
   removeFromConstructor,
   reorderConstructor,
-  resetConstructor
+  resetConstructor,
+  removeIngredient,
+  addIngredient,
+  moveUpIngredient,
+  moveDownIngredient,
+  createOrder,
+  clearOrder
 } = burgerConstructorSlice.actions;
 
 // Selectors
@@ -60,7 +108,7 @@ export const getConstructorItems = (state: RootState) => ({
 export const getOrderRequest = (state: RootState) =>
   state.burgerconstructor.orderRequest;
 
-export const getOrderModalData = (state: RootState) =>
+export const getOrderModalData = (state: RootState): TOrder | null =>
   state.burgerconstructor.orderModalData;
 
 export default burgerConstructorSlice.reducer;

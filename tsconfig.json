@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es5",
+    "module": "esnext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -15,8 +15,8 @@
     "isolatedModules": true,
     "noEmit": false,
     "jsx": "react-jsx",
-    "types": ["node", "jest"],
-    "baseUrl": "./src",
+    "types": ["node", "jest", "cypress"],
+    "baseUrl": ".",
     "paths": {
       "@pages": ["src/pages"],
       "@components": ["src/components"],
