@@ -4,8 +4,8 @@ import {
   removeFromConstructor,
   reorderConstructor,
   resetConstructor
-} from './Burger--ConstructorSlice';
-import { TConstructorState, TConstructorIngredient } from '../../utils/types';
+} from '../services/slices/Burger--ConstructorSlice';
+import { TConstructorState, TConstructorIngredient } from '../utils/types';
 
 describe('constructorSlice', () => {
   const ingredient1: TConstructorIngredient = {

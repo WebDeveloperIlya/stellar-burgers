@@ -69,3 +69,10 @@ export type TLoginData = {
   email: string;
   password: string;
 };
+
+export enum RequestStatus {
+  Idle = 'Idle',
+  Loading = 'Loading',
+  Success = 'Success',
+  Failed = 'Failed'
+}

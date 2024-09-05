@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Modal } from './modal';
+import { Modal } from '../components/modal/modal';
 
 beforeEach(() => {
   const portalContainer = document.createElement('div');
