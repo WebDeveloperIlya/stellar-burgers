@@ -13,7 +13,7 @@ import {
 import { selectIsAuthenticated } from '../../services/slices/UserSlice';
 import { RootState } from '../../services/store'; // Import RootState
 
-export const BurgerConstructor: FC = () => {
+export const BurgerConstructor: FC = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -77,6 +77,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      {...props} // Передаем все остальные пропсы
     />
   );
 };
