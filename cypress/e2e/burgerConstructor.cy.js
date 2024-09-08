@@ -73,7 +73,7 @@ describe('тест оформления заказа', function() {
     cy.get('[data-cy=order-sum]', { timeout: 10000 }).should('be.visible').click({ force: true });
 
     cy.wait('@postOrder').its('request.body').should('deep.equal', {
-      ingredients: ['1', '2', '4']
+      ingredients: ['1', '2', '4', '1']
     });
 
     cy.get('[data-cy=order-number]').contains('51882').should('exist');
