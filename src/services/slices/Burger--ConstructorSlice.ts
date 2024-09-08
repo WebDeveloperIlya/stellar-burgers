@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  TConstructorState,
   TConstructorIngredient,
+  TConstructorState,
+  TIngredient,
   TOrder
 } from '../../utils/types';
 import { RootState } from '../store';
@@ -17,16 +18,17 @@ export const burgerConstructorSlice = createSlice({
   name: 'burgerconstructor',
   initialState,
   reducers: {
-    addToConstructor: (
-      state,
-      action: PayloadAction<TConstructorIngredient>
-    ) => {
-      const ingredient = action.payload;
-      if (ingredient.type === 'top') {
-        state.bun = ingredient;
-      } else {
-        state.ingredients.push(ingredient);
-      }
+    addToConstructor: {
+      reducer: (state, { payload }: PayloadAction<TConstructorIngredient>) => {
+        if (payload.type === 'bun') {
+          state.bun = payload;
+        } else {
+          state.ingredients.push(payload);
+        }
+      },
+      prepare: (ingredient: TIngredient) => ({
+        payload: { ...ingredient, id: crypto.randomUUID() }
+      })
     },
     removeFromConstructor: (state, action: PayloadAction<number>) => {
       state.ingredients = state.ingredients.filter(
@@ -44,12 +46,6 @@ export const burgerConstructorSlice = createSlice({
     resetConstructor: (state) => {
       state.bun = null;
       state.ingredients = [];
-    },
-    addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
-      const ingredient = action.payload;
-      if (!state.ingredients.some((ing) => ing._id === ingredient._id)) {
-        state.ingredients.push(ingredient);
-      }
     },
     removeIngredient: (
       state,
@@ -80,8 +76,7 @@ export const burgerConstructorSlice = createSlice({
       state.orderModalData = action.payload;
     },
     clearOrder: (state) => {
-      state.orderRequest = false;
-      state.orderModalData = null;
+      state = initialState;
     }
   }
 });
@@ -92,7 +87,6 @@ export const {
   reorderConstructor,
   resetConstructor,
   removeIngredient,
-  addIngredient,
   moveUpIngredient,
   moveDownIngredient,
   createOrder,
