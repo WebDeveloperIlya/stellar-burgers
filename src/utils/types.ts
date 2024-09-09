@@ -34,6 +34,8 @@ export type TConstructorState = {
   ingredients: TConstructorIngredient[];
   orderRequest: boolean;
   orderModalData: TOrder | null;
+  orderRequestFailed: boolean;
+  orderRequestSuccess: boolean;
 };
 
 export type TOrder = {

@@ -1,14 +1,15 @@
 import { FC, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../services/store';
 import {
+  addToConstructor,
   clearOrder,
-  createOrder,
   getConstructorItems,
   getOrderModalData,
-  getOrderRequest
+  getOrderRequest,
+  createOrder
 } from '../../services/slices/Burger--ConstructorSlice';
 import { selectIsAuthenticated } from '../../services/slices/UserSlice';
-import { RootState, useDispatch, useSelector } from '../../services/store';
 import { TConstructorIngredient, TOrder } from '../../utils/types';
 import { BurgerConstructorUI } from '../ui';
 
@@ -16,15 +17,9 @@ export const BurgerConstructor: FC = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const constructorItems = useSelector((state: RootState) =>
-    getConstructorItems(state)
-  );
-  const orderRequest = useSelector((state: RootState) =>
-    getOrderRequest(state)
-  );
-  const orderModalData = useSelector((state: RootState) =>
-    getOrderModalData(state)
-  );
+  const constructorItems = useSelector((state) => getConstructorItems(state));
+  const orderRequest = useSelector((state) => getOrderRequest(state));
+  const orderModalData = useSelector((state) => getOrderModalData(state));
   const authorized = useSelector(selectIsAuthenticated);
 
   const onOrderClick = () => {
@@ -41,7 +36,7 @@ export const BurgerConstructor: FC = (props) => {
       name: 'Burger Order', // Название заказа
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      number: Math.floor(Math.random() * 10000), // Генерация случайного номера
+      number: 0, // Номер заказа будет присвоен сервером
       ingredients: [
         constructorItems.bun._id,
         ...constructorItems.ingredients.map((ingredient) => ingredient._id),
@@ -49,8 +44,8 @@ export const BurgerConstructor: FC = (props) => {
       ]
     };
 
-    // Передаем объект TOrder
-    dispatch(createOrder(order));
+    // Передаем объект TOrder и диспатчим thunk
+    dispatch(createOrder(order.ingredients));
   };
 
   const closeOrderModal = () => {

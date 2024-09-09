@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { orderBurgerApi } from '../../utils/burger-api';
 import {
   TConstructorIngredient,
   TConstructorState,
@@ -7,11 +8,29 @@ import {
 } from '../../utils/types';
 import { RootState } from '../store';
 
+interface ICreateOrderResponse {
+  order: TOrder;
+}
+
+export const createOrder = createAsyncThunk<ICreateOrderResponse, string[]>(
+  'burgerconstructor/createOrder',
+  async (ingredients: string[]) => {
+    try {
+      const response = await orderBurgerApi(ingredients);
+      return response;
+    } catch (error) {
+      throw new Error('Ошибка при создании заказа');
+    }
+  }
+);
+
 const initialState: TConstructorState = {
   bun: null,
   ingredients: [],
   orderRequest: false,
-  orderModalData: null
+  orderModalData: null,
+  orderRequestFailed: false,
+  orderRequestSuccess: false
 };
 
 export const burgerConstructorSlice = createSlice({
@@ -71,13 +90,32 @@ export const burgerConstructorSlice = createSlice({
         state.ingredients[index + 1] = tmp;
       }
     },
-    createOrder: (state, action: PayloadAction<TOrder>) => {
-      state.orderRequest = true;
-      state.orderModalData = action.payload;
-    },
     clearOrder: (state) => {
-      state = initialState;
+      state.orderRequest = false;
+      state.orderRequestFailed = false;
+      state.orderRequestSuccess = false;
+      state.orderModalData = null;
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createOrder.pending, (state) => {
+        state.orderRequest = true;
+        state.orderRequestFailed = false;
+        state.orderRequestSuccess = false;
+      })
+      .addCase(
+        createOrder.fulfilled,
+        (state, action: PayloadAction<ICreateOrderResponse>) => {
+          state.orderRequest = false;
+          state.orderRequestSuccess = true;
+          state.orderModalData = action.payload.order;
+        }
+      )
+      .addCase(createOrder.rejected, (state) => {
+        state.orderRequest = false;
+        state.orderRequestFailed = true;
+      });
   }
 });
 
@@ -89,7 +127,6 @@ export const {
   removeIngredient,
   moveUpIngredient,
   moveDownIngredient,
-  createOrder,
   clearOrder
 } = burgerConstructorSlice.actions;
 
@@ -104,5 +141,11 @@ export const getOrderRequest = (state: RootState) =>
 
 export const getOrderModalData = (state: RootState): TOrder | null =>
   state.burgerconstructor.orderModalData;
+
+export const getOrderRequestFailed = (state: RootState) =>
+  state.burgerconstructor.orderRequestFailed;
+
+export const getOrderRequestSuccess = (state: RootState) =>
+  state.burgerconstructor.orderRequestSuccess;
 
 export default burgerConstructorSlice.reducer;

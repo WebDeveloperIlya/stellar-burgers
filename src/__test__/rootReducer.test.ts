@@ -12,7 +12,9 @@ describe('rootReducer', () => {
         bun: null,
         ingredients: [],
         orderRequest: false,
-        orderModalData: null
+        orderModalData: null,
+        orderRequestFailed: false,
+        orderRequestSuccess: false
       },
       [feedDataSlice.name]: {
         orders: [],
