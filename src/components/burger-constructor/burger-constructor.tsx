@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
 import {
@@ -7,7 +7,8 @@ import {
   getConstructorItems,
   getOrderModalData,
   getOrderRequest,
-  createOrder
+  createOrder,
+  resetConstructor
 } from '../../services/slices/Burger--ConstructorSlice';
 import { selectIsAuthenticated } from '../../services/slices/UserSlice';
 import { TConstructorIngredient, TOrder } from '../../utils/types';
@@ -52,6 +53,12 @@ export const BurgerConstructor: FC = (props) => {
     dispatch(clearOrder());
     navigate('/');
   };
+
+  useEffect(() => {
+    if (!orderRequest && orderModalData) {
+      dispatch(resetConstructor());
+    }
+  }, [orderRequest, orderModalData, dispatch]);
 
   const price = useMemo(
     () =>

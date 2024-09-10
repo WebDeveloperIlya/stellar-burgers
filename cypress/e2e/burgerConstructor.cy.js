@@ -80,5 +80,9 @@ describe('тест оформления заказа', function() {
 
     cy.get('#modals button[aria-label="Закрыть"]').click({ force: true });
     cy.contains('[data-cy=order-number]').should('not.exist');
+
+    cy.get('[data-cy=constructor]').contains('Ингредиент 1').should('not.exist');
+    cy.get('[data-cy=constructor]').contains('Ингредиент 2').should('not.exist');
+    cy.get('[data-cy=constructor]').contains('Ингредиент 4').should('not.exist');
   });
 });
