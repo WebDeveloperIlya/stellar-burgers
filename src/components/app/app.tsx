@@ -8,17 +8,18 @@ import {
   Profile,
   ProfileOrders,
   NotFound404
-} from '@pages';
+} from '../../pages';
 
 import '../../index.css';
 import styles from './app.module.css';
-import { AppHeader, Modal, IngredientDetails, OrderInfo } from '@components';
+import { AppHeader, Modal, IngredientDetails, OrderInfo } from '../';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/IngedientSlice';
 import { ProtectedRoute } from '../ProtectedRoute';
 import { checkUserAuth } from '../../services/slices/UserSlice';
+import { divide } from 'cypress/types/lodash';
 
 const App = () => {
   const navigate = useNavigate();
@@ -46,7 +47,17 @@ const App = () => {
       <AppHeader />
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <div className={styles.detailPageWrap}>
+              <p className={`text text_type_main-large ${styles.detailHeader}`}>
+                Детали ингредиента
+              </p>
+              <IngredientDetails />
+            </div>
+          }
+        />
         <Route path='/feed' element={<Feed />} />
         <Route
           path='/login'
@@ -99,7 +110,17 @@ const App = () => {
         {/*Роуты для рендера контента по условию отсутствия фонового состояния, то есть когда пользователь открывает прямую ссылку*/}
         <Route path='*' element={<NotFound404 />} />
         <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <div className={styles.detailPageWrap}>
+              <p className={`text text_type_main-large ${styles.detailHeader}`}>
+                Детали ингредиента
+              </p>
+              <IngredientDetails />
+            </div>
+          }
+        />
         <Route
           path='/profile/orders/:number'
           element={
@@ -123,7 +144,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={'Детали ингредиента'} onClose={closeModal}>
+              <Modal title='Детали ингредиента' onClose={closeModal}>
                 <IngredientDetails />
               </Modal>
             }

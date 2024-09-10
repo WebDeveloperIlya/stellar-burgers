@@ -3,3 +3,7 @@ node_modules
 .idea
 dist
 .global.d.ts
+coverage
+/cypress/screenshots
+/cypress/fixtures
+/cypress/fixtures

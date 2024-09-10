@@ -1,5 +1,5 @@
-import { OrderCardUI } from '@ui';
 import type { Meta, StoryObj } from '@storybook/react';
+import { OrderCardUI } from '../components/ui';
 
 const meta = {
   title: 'Example/OrderCard',
@@ -22,7 +22,7 @@ export const DefaultOrderCard: Story = {
         {
           _id: '111',
           name: 'Булка',
-          type: 'top',
+          type: 'bun',
           proteins: 12,
           fat: 33,
           carbohydrates: 22,
@@ -37,7 +37,7 @@ export const DefaultOrderCard: Story = {
         {
           _id: '111',
           name: 'Булка',
-          type: 'top',
+          type: 'bun',
           proteins: 12,
           fat: 33,
           carbohydrates: 22,
@@ -50,7 +50,7 @@ export const DefaultOrderCard: Story = {
         {
           _id: '111',
           name: 'Начинка',
-          type: 'top',
+          type: 'bun',
           proteins: 12,
           fat: 33,
           carbohydrates: 22,

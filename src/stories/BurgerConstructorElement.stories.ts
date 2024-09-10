@@ -1,6 +1,5 @@
-import { BurgerConstructorElementUI } from '@ui';
 import type { Meta, StoryObj } from '@storybook/react';
-import { totalmem } from 'os';
+import { BurgerConstructorElementUI } from '../components/ui';
 
 const meta = {
   title: 'Example/BurgerConstructorElement',
@@ -22,7 +21,7 @@ export const DefaultElement: Story = {
       _id: '111',
       id: '222',
       name: 'Булка',
-      type: 'top',
+      type: 'bun',
       proteins: 12,
       fat: 33,
       carbohydrates: 22,

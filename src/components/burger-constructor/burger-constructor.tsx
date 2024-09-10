@@ -1,44 +1,52 @@
-import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
-import { BurgerConstructorUI, Preloader } from '../ui/';
-import { useSelector, useDispatch } from '../../services/store';
+import { FC, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../services/store';
 import {
+  addToConstructor,
+  clearOrder,
   getConstructorItems,
-  getOrderRequest,
   getOrderModalData,
+  getOrderRequest,
   createOrder,
-  clearOrder
+  resetConstructor
 } from '../../services/slices/Burger--ConstructorSlice';
-import {
-  selectUser,
-  selectIsAuthChecked,
-  selectIsAuthenticated,
-  checkUserAuth
-} from '../../services/slices/UserSlice';
+import { selectIsAuthenticated } from '../../services/slices/UserSlice';
+import { TConstructorIngredient, TOrder } from '../../utils/types';
+import { BurgerConstructorUI } from '../ui';
 
-export const BurgerConstructor: FC = () => {
+export const BurgerConstructor: FC = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const constructorItems = useSelector(getConstructorItems);
-  const orderRequest = useSelector(getOrderRequest);
-  const orderModalData = useSelector(getOrderModalData);
+  const constructorItems = useSelector((state) => getConstructorItems(state));
+  const orderRequest = useSelector((state) => getOrderRequest(state));
+  const orderModalData = useSelector((state) => getOrderModalData(state));
   const authorized = useSelector(selectIsAuthenticated);
 
   const onOrderClick = () => {
     if (!authorized) {
-      return navigate('/login');
+      navigate('/login');
+      return;
     }
     if (!constructorItems.bun || orderRequest) return;
 
-    const order = [
-      constructorItems.bun?._id,
-      ...constructorItems.ingredients.map((ingredient) => ingredient._id),
-      constructorItems.bun?._id
-    ].filter(Boolean);
+    // Создаем объект TOrder
+    const order: TOrder = {
+      _id: 'generated-id', // Используйте реальный идентификатор
+      status: 'pending', // Используйте реальный статус
+      name: 'Burger Order', // Название заказа
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      number: 0, // Номер заказа будет присвоен сервером
+      ingredients: [
+        constructorItems.bun._id,
+        ...constructorItems.ingredients.map((ingredient) => ingredient._id),
+        constructorItems.bun._id
+      ]
+    };
 
-    dispatch(createOrder(order));
+    // Передаем объект TOrder и диспатчим thunk
+    dispatch(createOrder(order.ingredients));
   };
 
   const closeOrderModal = () => {
@@ -46,11 +54,17 @@ export const BurgerConstructor: FC = () => {
     navigate('/');
   };
 
+  useEffect(() => {
+    if (!orderRequest && orderModalData) {
+      dispatch(resetConstructor());
+    }
+  }, [orderRequest, orderModalData, dispatch]);
+
   const price = useMemo(
     () =>
       (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
       constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
+        (s: number, ingredient: TConstructorIngredient) => s + ingredient.price,
         0
       ),
     [constructorItems]
@@ -64,6 +78,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      {...props} // Передаем все остальные пропсы
     />
   );
 };

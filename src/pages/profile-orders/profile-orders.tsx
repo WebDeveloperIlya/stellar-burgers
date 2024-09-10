@@ -1,5 +1,5 @@
-import { ProfileOrdersUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
+import { ProfileOrdersUI } from '../../components/ui/pages';
+import { TOrder } from '../../utils/types';
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
@@ -7,7 +7,7 @@ import {
   getUserOrdersLoading,
   getUserOrdersHistory
 } from '../../services/slices/OrdersHistory';
-import { Preloader } from '@ui';
+import { Preloader } from '../../components/ui';
 
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();

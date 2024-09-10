@@ -1,7 +1,7 @@
 export type TIngredient = {
   _id: string;
   name: string;
-  type: string;
+  type: 'bun' | 'main' | 'sauce';
   proteins: number;
   fat: number;
   carbohydrates: number;
@@ -12,8 +12,30 @@ export type TIngredient = {
   image_mobile: string;
 };
 
-export type TConstructorIngredient = TIngredient & {
+// types.ts
+
+export type TConstructorIngredient = {
   id: string;
+  _id: string;
+  name: string;
+  type: 'bun' | 'main' | 'sauce';
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_large: string;
+  image_mobile: string;
+};
+
+export type TConstructorState = {
+  bun: TConstructorIngredient | null;
+  ingredients: TConstructorIngredient[];
+  orderRequest: boolean;
+  orderModalData: TOrder | null;
+  orderRequestFailed: boolean;
+  orderRequestSuccess: boolean;
 };
 
 export type TOrder = {
@@ -49,3 +71,10 @@ export type TLoginData = {
   email: string;
   password: string;
 };
+
+export enum RequestStatus {
+  Idle = 'Idle',
+  Loading = 'Loading',
+  Success = 'Success',
+  Failed = 'Failed'
+}

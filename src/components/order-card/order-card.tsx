@@ -1,12 +1,12 @@
 import { FC, memo, useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { OrderCardProps } from './type';
-import { TIngredient } from '@utils-types';
+import { TIngredient } from '../../utils/types';
 import { OrderCardUI } from '../ui/order-card';
 import { useSelector } from '../../services/store';
 import { getIngredientsWithSelector } from '../../services/slices/IngedientSlice';
-import { getUserOrdersHistory } from '../../services/slices/OrdersHistory'; //
-import { TOrder } from '@utils-types'; //
+import { getUserOrdersHistory } from '../../services/slices/OrdersHistory';
+// import { TOrder } from '../../utils/types'; //
 
 const maxIngredients = 6;
 

@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
-import { TIngredient, TOrder } from '@utils-types';
+import { TIngredient, TOrder } from '../../utils/types';
 import { getIngredientsWithSelector } from '../../services/slices/IngedientSlice';
 import { getFeedOrders, getOrderByNum } from '../../services/slices/FeedSlice';
 import { useSelector, useDispatch } from '../../services/store';

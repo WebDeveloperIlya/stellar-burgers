@@ -1,12 +1,12 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { RegisterUI } from '@ui-pages';
+import { RegisterUI } from '../../components/ui/pages';
 import { useDispatch, useSelector } from '../../services/store';
-import { TRegisterData } from '@api';
+import { TRegisterData } from '../../utils/burger-api';
 import {
   toRegisterUser,
   selectloginUserRequest
 } from '../../services/slices/UserSlice';
-import { Preloader } from '@ui';
+import { Preloader } from '../../components/ui';
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');

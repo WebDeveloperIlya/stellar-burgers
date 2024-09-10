@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TUser } from '@utils-types';
+import { TUser } from '../../utils/types';
 import { getCookie, setCookie, deleteCookie } from '../../utils/cookie';
 import {
   refreshToken,
@@ -11,7 +11,7 @@ import {
   logoutApi,
   forgotPasswordApi,
   resetPasswordApi
-} from '@api';
+} from '../../utils/burger-api';
 
 import { TRegisterData } from '../../utils/burger-api';
 
